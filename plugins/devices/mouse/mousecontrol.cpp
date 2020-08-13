@@ -105,34 +105,6 @@ MouseControl::MouseControl()
     ui->titleLabel->setStyleSheet("QLabel{font-size: 18px; color: palette(windowText);}");
     ui->title2Label->setStyleSheet("QLabel{font-size: 18px; color: palette(windowText);}");
 
-//    QString qss;
-//    QFile QssFile("://combox.qss");
-//    QssFile.open(QFile::ReadOnly);
-
-//    if (QssFile.isOpen()){
-//        qss = QLatin1String(QssFile.readAll());
-//        QssFile.close();
-//    }
-
-//    pluginWidget->setStyleSheet("background: #ffffff;");
-
-//    ui->handWidget->setStyleSheet("QWidget{background: #F4F4F4; border-radius: 6px;}");
-//    ui->pointerSpeedWidget->setStyleSheet("QWidget{background: #F4F4F4; border-top-left-radius: 6px; border-top-right-radius: 6px;}");
-//    ui->sensitivityWidget->setStyleSheet("QWidget{background: #F4F4F4;}");
-//    ui->visibilityWidget->setStyleSheet("QWidget{background: #F4F4F4;}");
-//    ui->pointerSizeWidget->setStyleSheet("QWidget{background: #F4F4F4; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;}");
-
-    //全局未生效，再次设置
-//    ui->pointerSizeComBox->setView(new QListView());
-//    ui->pointerSizeComBox->setStyleSheet(qss);
-//    ui->handHabitComBox->setView(new QListView());
-//    ui->handHabitComBox->setStyleSheet(qss);
-
-
-//    ui->cursorWeightWidget->setStyleSheet("QWidget{background: #F4F4F4; border-top-left-radius: 6px; border-top-right-radius: 6px;}");
-//    ui->cursorSpeedWidget->setStyleSheet("QWidget{background: #F4F4F4;}");
-//    ui->flashingWidget->setStyleSheet("QWidget{background: #F4F4F4;  border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;}");
-
     //初始化鼠标设置GSettings
     const QByteArray id(MOUSE_SCHEMA);
     const QByteArray sessionId(SESSION_SCHEMA);
@@ -149,9 +121,6 @@ MouseControl::MouseControl()
         initCursorStatus();
         initWheelStatus();
     }
-
-
-
 }
 
 MouseControl::~MouseControl()
@@ -178,6 +147,11 @@ QWidget *MouseControl::get_plugin_ui(){
 
 void MouseControl::plugin_delay_control(){
 
+}
+
+const QString MouseControl::name() const {
+
+    return QStringLiteral("mouse");
 }
 
 void MouseControl::setupComponent(){

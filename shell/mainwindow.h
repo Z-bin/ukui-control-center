@@ -31,6 +31,7 @@
 #include "interface.h"
 #include "homepagewidget.h"
 #include "modulepagewidget.h"
+#include "searchwidget.h"
 
 class QPushButton;
 class QButtonGroup;
@@ -75,6 +76,7 @@ private:
     QList<QMap<QString, QObject *>> modulesList;
 
     KeyValueConverter * kvConverter;
+    SearchWidget * m_searchWidget;
 
 private:
     void setBtnLayout(QPushButton * &pBtn);
@@ -91,6 +93,7 @@ private:
     QPixmap drawSymbolicColoredPixmap(const QPixmap &source, QString color);
 
     bool dblOnEdge(QMouseEvent *event);
+    void initStyleSheet();
 
 public slots:
     void functionBtnClicked(QObject * plugin);

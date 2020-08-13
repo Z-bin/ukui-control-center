@@ -82,6 +82,11 @@ void NetConnect::plugin_delay_control(){
 
 }
 
+const QString NetConnect::name() const {
+
+    return QStringLiteral("netconnect");
+}
+
 void NetConnect::initComponent(){
 
     const QByteArray id(CONTROL_CENTER_WIFI);
