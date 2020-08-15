@@ -77,6 +77,7 @@ public:
     const QString name() const  Q_DECL_OVERRIDE;
 
 public:
+    void initSearchText();
     void initComponent();    
     void rebuildNetStatusComponent(QString iconPath, QString netName);
     void rebuildAvailComponent(QString iconpath, QString netName);

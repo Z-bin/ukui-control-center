@@ -51,6 +51,7 @@ NetConnect::NetConnect():m_wifiList(new Wifi)
 
     ui->openWIifLayout->addWidget(wifiBtn);
 
+    initSearchText();
     initComponent();
 
 //    getNetList();
@@ -85,6 +86,13 @@ void NetConnect::plugin_delay_control(){
 const QString NetConnect::name() const {
 
     return QStringLiteral("netconnect");
+}
+
+void NetConnect::initSearchText() {
+    //~ contents_path /netconnect/Netconnect Status
+    ui->titleLabel->setText(tr("Netconnect Status"));
+    //~ contents_path /netconnect/open wifi
+    ui->openLabel->setText(tr("open wifi"));
 }
 
 void NetConnect::initComponent(){
