@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <QSvgRenderer>
 #include <QApplication>
+#include <QGSettings>
 
 LeftWidgetItem::LeftWidgetItem(QWidget *parent) :
     QWidget(parent)
@@ -38,21 +39,25 @@ LeftWidgetItem::LeftWidgetItem(QWidget *parent) :
 
     iconLabel = new QLabel(widget);
 
-////    textLabel = new QLabel(widget);
+    textLabel = new QLabel();
+//    textLabel->setMaximumWidth(100);
+
+    widget->setStyleSheet("QLabel{background:#AEEEE0}");
 
 
-////    QSizePolicy policy1 = textLabel->sizePolicy();
+    QSizePolicy policy1 = textLabel->sizePolicy();
 ////    policy1.setHorizontalPolicy(QSizePolicy::Fixed);
 ////    policy1.setVerticalPolicy(QSizePolicy::Fixed);
 ////    textLabel->setSizePolicy(policy1);
-////    textLabel->setScaledContents(true);
+//    textLabel->setScaledContents(true);
+
 
     QHBoxLayout * mainlayout = new QHBoxLayout(widget);
-////    mainlayout->setSpacing(8);
-////    mainlayout->setContentsMargins(8, 0, 0, 0);
-    mainlayout->addWidget(iconLabel, Qt::AlignVCenter);
-////    mainlayout->addWidget(textLabel, Qt::AlignVCenter);
-    mainlayout->addStretch();
+    mainlayout->setSpacing(8);
+    mainlayout->setContentsMargins(0, 0, 0, 0);
+    mainlayout->addWidget(iconLabel);
+    mainlayout->addWidget(textLabel);
+//    mainlayout->addStretch();
 
     widget->setLayout(mainlayout);
 
@@ -62,9 +67,29 @@ LeftWidgetItem::LeftWidgetItem(QWidget *parent) :
     baseVerLayout->setMargin(0);
 
     baseVerLayout->addWidget(widget);
-    baseVerLayout->addStretch();
+    baseVerLayout->addSpacing(1);
 
     setLayout(baseVerLayout);
+
+    const QByteArray id("org.ukui.style");
+    QGSettings * fontSetting = new QGSettings(id, QByteArray(), this);
+    connect(fontSetting, &QGSettings::changed,[=](QString key) {
+        if ("systemFont" == key || "systemFontSize" ==key) {
+
+            qDebug() << "daixoa---->" << textLabel->width();
+            QFontMetrics  fontMetrics(textLabel->font());
+            int fontSize = fontMetrics.width(mStr);
+            qDebug() << Q_FUNC_INFO << fontSize << textLabel->width() << mStr;
+            if (fontSize >= textLabel->width()) {
+                textLabel->setText(fontMetrics.elidedText(mStr, Qt::ElideRight, textLabel->width()));
+                textLabel->setToolTip(mStr);
+            } else {
+                textLabel->setText(mStr);
+                textLabel->setToolTip("");
+            }
+
+        }
+    });
 }
 
 LeftWidgetItem::~LeftWidgetItem()
@@ -94,16 +119,16 @@ void LeftWidgetItem::isSetLabelPixmapWhite(bool selected) {
 void LeftWidgetItem::setLabelText(QString text){
 
     mStr = text;
-//    QFontMetrics  fontMetrics(textLabel->font());
-//    int fontSize = fontMetrics.width(mStr);
-//    qDebug() << Q_FUNC_INFO << fontSize << textLabel->width() << mStr;
-//    if (fontSize >= textLabel->width()) {
-//        textLabel->setText(fontMetrics.elidedText(mStr, Qt::ElideRight, textLabel->width()));
-//        textLabel->setToolTip(mStr);
-//    } else {
-//        textLabel->setText(mStr);
-//        textLabel->setToolTip("");
-//    }
+    QFontMetrics  fontMetrics(textLabel->font());
+    int fontSize = fontMetrics.width(mStr);
+    qDebug() << Q_FUNC_INFO << fontSize << textLabel->width() << mStr;
+    if (fontSize >= textLabel->width()) {
+        textLabel->setText(fontMetrics.elidedText(mStr, Qt::ElideRight, textLabel->width()));
+        textLabel->setToolTip(mStr);
+    } else {
+        textLabel->setText(mStr);
+        textLabel->setToolTip("");
+    }
 //    qDebug() << "text is---->" << textLabel->text() << text;
 }
 
@@ -133,21 +158,21 @@ QString LeftWidgetItem::text(){
 void LeftWidgetItem::resizeEvent(QResizeEvent *event) {
     qDebug() << Q_FUNC_INFO;
 
-//    if (event->type() == QEvent::Resize) {
-//        if (textLabel) {
-//            QFontMetrics  fontMetrics(textLabel->font());
-//            int fontSize = fontMetrics.width(mStr);
-//            qDebug() << Q_FUNC_INFO << fontSize << textLabel->width() << mStr;
-//            if (fontSize >= textLabel->width()) {
-//                textLabel->setText(fontMetrics.elidedText(mStr, Qt::ElideRight, textLabel->width()));
-//                textLabel->setToolTip(mStr);
-//            } else {
-//                textLabel->setText(mStr);
-//                textLabel->setToolTip("");
-//            }
-//        }
+    if (event->type() == QEvent::Resize) {
+        if (textLabel) {
+            QFontMetrics  fontMetrics(textLabel->font());
+            int fontSize = fontMetrics.width(mStr);
+            qDebug() << Q_FUNC_INFO << fontSize << textLabel->width() << mStr;
+            if (fontSize >= textLabel->width()) {
+                textLabel->setText(fontMetrics.elidedText(mStr, Qt::ElideRight, textLabel->width()));
+                textLabel->setToolTip(mStr);
+            } else {
+                textLabel->setText(mStr);
+                textLabel->setToolTip("");
+            }
+        }
 
-//    }
+    }
     QWidget::resizeEvent(event);
 }
 

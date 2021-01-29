@@ -94,7 +94,7 @@ void ModulePageWidget::initUI() {
 //        leftListWidget->setResizeMode(QListView::Adjust);
 //        leftListWidget->setFocusPolicy(Qt::NoFocus);
 //        leftListWidget->setSelectionMode(QAbstractItemView::NoSelection);
-//        leftListWidget->setSpacing(12);
+        leftListWidget->setSpacing(12);
 //        leftListWidget->setMinimumWidth(172);
         connect(leftListWidget, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(currentLeftitemChanged(QListWidgetItem*,QListWidgetItem*)));
         QListWidget * topListWidget = new QListWidget;
@@ -124,13 +124,13 @@ void ModulePageWidget::initUI() {
             LeftWidgetItem * leftWidgetItem = new LeftWidgetItem();
             leftWidgetItem->setStyleSheet("QWidget{background:#76EEC6;border-radius:12px}");
 //            leftWidgetItem->setAttribute(Qt::WA_DeleteOnClose);
-//            leftWidgetItem->setLabelText(single.namei18nString);
-//            leftWidgetItem->setLabelPixmap(QString("://img/secondaryleftmenu/%1.svg").arg(single.nameString), single.nameString, "default");
+            leftWidgetItem->setLabelText(single.namei18nString);
+            leftWidgetItem->setLabelPixmap(QString("://img/secondaryleftmenu/%1.svg").arg(single.nameString), single.nameString, "default");
 
             QListWidgetItem * item = new QListWidgetItem(leftListWidget);
-//            item->setSizeHint(QSize(ui->leftStackedWidget->width() + 48, 40)); //QSize(120, 40) spacing: 12px;
+            item->setSizeHint(QSize(ui->leftStackedWidget->width() + 48, 40)); //QSize(120, 40) spacing: 12px;
             leftListWidget->setItemWidget(item, leftWidgetItem);
-            leftListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//            leftListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
             strItemsMap.insert(single.namei18nString, item);
 
