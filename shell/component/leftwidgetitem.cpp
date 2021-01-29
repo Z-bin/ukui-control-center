@@ -28,30 +28,37 @@
 LeftWidgetItem::LeftWidgetItem(QWidget *parent) :
     QWidget(parent)
 {
+
+
     widget = new QWidget(this);
     widget->setFixedHeight(40);
+////    this->setStyleSheet("QWidget{background: #00E5EE}");
+//    widget->setStyleSheet("QWidget{background:#AEEEEE}");
+
 
     iconLabel = new QLabel(widget);
 
-    textLabel = new QLabel(widget);
-    QSizePolicy policy1 = textLabel->sizePolicy();
-    policy1.setHorizontalPolicy(QSizePolicy::Fixed);
-    policy1.setVerticalPolicy(QSizePolicy::Fixed);
-    textLabel->setSizePolicy(policy1);
-    textLabel->setScaledContents(true);
+////    textLabel = new QLabel(widget);
+
+
+////    QSizePolicy policy1 = textLabel->sizePolicy();
+////    policy1.setHorizontalPolicy(QSizePolicy::Fixed);
+////    policy1.setVerticalPolicy(QSizePolicy::Fixed);
+////    textLabel->setSizePolicy(policy1);
+////    textLabel->setScaledContents(true);
 
     QHBoxLayout * mainlayout = new QHBoxLayout(widget);
-    mainlayout->setSpacing(8);
-    mainlayout->setContentsMargins(8, 0, 0, 0);
+////    mainlayout->setSpacing(8);
+////    mainlayout->setContentsMargins(8, 0, 0, 0);
     mainlayout->addWidget(iconLabel, Qt::AlignVCenter);
-    mainlayout->addWidget(textLabel, Qt::AlignVCenter);
+////    mainlayout->addWidget(textLabel, Qt::AlignVCenter);
     mainlayout->addStretch();
 
     widget->setLayout(mainlayout);
 
 
-    QVBoxLayout * baseVerLayout = new QVBoxLayout(this);
-    baseVerLayout->setSpacing(0);
+    QVBoxLayout * baseVerLayout = new QVBoxLayout();
+//    baseVerLayout->setSpacing(0);
     baseVerLayout->setMargin(0);
 
     baseVerLayout->addWidget(widget);
@@ -86,27 +93,62 @@ void LeftWidgetItem::isSetLabelPixmapWhite(bool selected) {
 
 void LeftWidgetItem::setLabelText(QString text){
 
-    textLabel->setText(text);
+    mStr = text;
+//    QFontMetrics  fontMetrics(textLabel->font());
+//    int fontSize = fontMetrics.width(mStr);
+//    qDebug() << Q_FUNC_INFO << fontSize << textLabel->width() << mStr;
+//    if (fontSize >= textLabel->width()) {
+//        textLabel->setText(fontMetrics.elidedText(mStr, Qt::ElideRight, textLabel->width()));
+//        textLabel->setToolTip(mStr);
+//    } else {
+//        textLabel->setText(mStr);
+//        textLabel->setToolTip("");
+//    }
+//    qDebug() << "text is---->" << textLabel->text() << text;
 }
 
 void LeftWidgetItem::setLabelTextIsWhite(bool selected) {
-    if(selected) {
-        textLabel->setStyleSheet("color: palette(highlighted-text);");
-    } else {
-        textLabel->setStyleSheet("color: palette(windowText);");
-    }
+//    if(selected) {
+//        textLabel->setStyleSheet("color: palette(highlighted-text);");
+//    } else {
+//        textLabel->setStyleSheet("color: palette(windowText);");
+//    }
+//    textLabel->setStyleSheet("QLabel{background:#53868B}");
 }
 
 void LeftWidgetItem::setSelected(bool selected){
-    if (selected) {
-        widget->setStyleSheet("QWidget{background: #3D6BE5; border-radius: 4px;}");
-    } else {
-        widget->setStyleSheet("QListWidget::Item:hover{background:#FF3D6BE5;border-radius: 4px;}");
-    }
+//    if (selected) {
+//        widget->setStyleSheet("QWidget{background: #3D6BE5; border-radius: 4px;}");
+//    } else {
+//        widget->setStyleSheet("QListWidget::Item:hover{background:#FF3D6BE5;border-radius: 4px;}");
+//    }
+//    textLabel->setStyleSheet("QLabel{background:#53868B}");
 }
 
 QString LeftWidgetItem::text(){
-    return textLabel->text();
+
+    return mStr;
+}
+
+void LeftWidgetItem::resizeEvent(QResizeEvent *event) {
+    qDebug() << Q_FUNC_INFO;
+
+//    if (event->type() == QEvent::Resize) {
+//        if (textLabel) {
+//            QFontMetrics  fontMetrics(textLabel->font());
+//            int fontSize = fontMetrics.width(mStr);
+//            qDebug() << Q_FUNC_INFO << fontSize << textLabel->width() << mStr;
+//            if (fontSize >= textLabel->width()) {
+//                textLabel->setText(fontMetrics.elidedText(mStr, Qt::ElideRight, textLabel->width()));
+//                textLabel->setToolTip(mStr);
+//            } else {
+//                textLabel->setText(mStr);
+//                textLabel->setToolTip("");
+//            }
+//        }
+
+//    }
+    QWidget::resizeEvent(event);
 }
 
 const QPixmap LeftWidgetItem::loadSvg(const QString &fileName, QString color)

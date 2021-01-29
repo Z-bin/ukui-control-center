@@ -55,9 +55,9 @@ int main(int argc, char *argv[])
         return EXIT_SUCCESS;
     } else {
         // 加载国际化文件
-        QTranslator translator;
-        translator.load("/usr/share/ukui-control-center/shell/res/i18n/" + QLocale::system().name());
-        a.installTranslator(&translator);
+//        QTranslator translator;
+//        translator.load("/usr/share/ukui-control-center/shell/res/i18n/" + QLocale::system().name());
+//        a.installTranslator(&translator);
 
         // 命令行参数
         QCoreApplication::setApplicationName("ukui-control-center");

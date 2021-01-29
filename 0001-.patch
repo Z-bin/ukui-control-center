@@ -1,0 +1,286 @@
+From 4eb5a3910e0c4fce6122773391120fafaf15676f Mon Sep 17 00:00:00 2001
+From: zhangyu <zhangyu@kylinos.cn>
+Date: Thu, 21 Jan 2021 20:17:12 +0800
+Subject: [PATCH] =?UTF-8?q?=E4=BF=AE=E6=94=B9=E6=8E=A7=E5=88=B6=E9=9D=A2?=
+ =?UTF-8?q?=E6=9D=BF?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+
+diff --git a/plugins/security-updates/securitycenter/securitycenter.cpp b/plugins/security-updates/securitycenter/securitycenter.cpp
+index 0ffb120e..4fd1b0a9 100644
+--- a/plugins/security-updates/securitycenter/securitycenter.cpp
++++ b/plugins/security-updates/securitycenter/securitycenter.cpp
+@@ -13,26 +13,25 @@
+ #include <QFontMetrics>
+ 
+ 
+-BlockWidget::BlockWidget(){
++BlockWidget::BlockWidget()
++{
+     setFixedSize(QSize(260, 80));
+     initComponent();
+ }
+ 
+-BlockWidget::~BlockWidget(){
++BlockWidget::~BlockWidget()
++{
+ 
+ }
+ 
+ void BlockWidget::initComponent(){
+     QHBoxLayout * mainVerLayout = new QHBoxLayout(this);
+     mainVerLayout->setSpacing(12);
+-    mainVerLayout->setMargin(0);
+-
++    mainVerLayout->setMargin(8);
+     logoLabel = new QLabel;
+     logoLabel->setFixedSize(QSize(48, 48));
+-
+     QVBoxLayout * textHorLayout = new QVBoxLayout;
+     textHorLayout->setSpacing(10);
+-
+     titleLable = new QLabel;
+     detailLabel = new QLabel;
+     detailLabel->setAlignment(Qt::AlignTop);
+@@ -48,15 +47,15 @@ void BlockWidget::initComponent(){
+     textHorLayout->addWidget(titleLable);
+     textHorLayout->addWidget(detailLabel);
+     textHorLayout->addStretch();
+-
+     mainVerLayout->addWidget(logoLabel);
+     mainVerLayout->addLayout(textHorLayout);
+-
+     setLayout(mainVerLayout);
+ }
+ 
+-void BlockWidget::setupComponent(QString logo, QString title, QString detail, QString cmd){
+-    logoLabel->setPixmap(QPixmap(logo).scaled(logoLabel->size()));
++void BlockWidget::setupComponent(QString normal_icon ,QString hover_icon, QString title, QString detail, QString cmd){
++    m_normalIcon = normal_icon;
++    m_hoverIcon = hover_icon;
++    logoLabel->setPixmap(QPixmap(normal_icon).scaled(logoLabel->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+     titleLable->setText(title);
+     detailLabel->setText(detail);
+     m_curIndex = 0;
+@@ -86,14 +85,23 @@ void BlockWidget::enterEvent(QEvent *event){
+     m_charWidth = fontMetrics().width("。");
+     m_labelWidth = m_charWidth * m_showText.length();
+     scrollLabel();
++    logoLabel->setPixmap(QPixmap(m_hoverIcon).scaled(logoLabel->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
++    setBackgroundRole(QPalette::Highlight);
++    setAutoFillBackground(true);
++    setStyleSheet("background:palette(Highlight);"
++                  "border-radius:6px;");
+     QWidget::enterEvent(event);
+ }
+ 
+ void BlockWidget::leaveEvent(QEvent *event){
+-    //style
+     timer->stop();
+     m_curIndex = 0;
+     this->detailLabel->update();
++    setBackgroundRole(QPalette::Base);
++    setAutoFillBackground(true);
++    setStyleSheet("background:palette(Base);"
++                  "border-radius:6px;");
++    logoLabel->setPixmap(QPixmap(m_normalIcon).scaled(logoLabel->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+     QWidget::leaveEvent(event);
+ }
+ 
+@@ -143,7 +151,6 @@ SecurityCenter::SecurityCenter()
+     pluginWidget = new QWidget;
+     pluginWidget->setAttribute(Qt::WA_DeleteOnClose);
+     ui->setupUi(pluginWidget);
+-
+     pluginName = tr("Security Center");
+     pluginType = UPDATE;
+ 
+@@ -182,7 +189,7 @@ const QString SecurityCenter::name() const {
+ }
+ 
+ void SecurityCenter::initComponent(){
+-    ui->titleLabel->setStyleSheet("QLabel{font-size: 18px; color: palette(windowText);}");
++    ui->titleLabel->setStyleSheet("QLabel{font-size: 18px; color: palette(windowText);font-weight:bold;}");
+ 
+     //设置布局
+     flowLayout = new FlowLayout;
+@@ -191,26 +198,27 @@ void SecurityCenter::initComponent(){
+ 
+     BlockWidget * account_sec_Widget = new BlockWidget();
+     account_sec_Widget->setupComponent(":/img/plugins/securitycenter/user_48.png", \
++                                       ":/img/plugins/securitycenter/user_48_white.png",\
+                                        tr("Account Security"), \
+                                        tr("Protect account and login security"), \
+                                        "/usr/sbin/ksc-defender --account-sec");
+-
+-
+-
+     BlockWidget * baseline_ctrl_Widget = new BlockWidget();
+     baseline_ctrl_Widget->setupComponent(":/img/plugins/securitycenter/icon_scanning_b48@1x.png", \
++                                         ":/img/plugins/securitycenter/icon_scanning_w48@1x.png",\
+                                          tr("Safety check-up"), \
+                                          tr("Detect abnormal configuration"), \
+                                          "/usr/sbin/ksc-defender --baseline-ctrl");
+ 
+     BlockWidget * virus_protect_Widget = new BlockWidget();
+     virus_protect_Widget->setupComponent(":/img/plugins/securitycenter/protect_48.png", \
++                                         ":/img/plugins/securitycenter/protect_48_white.png",\
+                                          tr("Virus defense"), \
+                                          tr("Real time protection from virus threat"), \
+                                          "/usr/sbin/ksc-defender  --virus-protect");
+ 
+     BlockWidget * exec_ctrl_Widget = new BlockWidget();
+     exec_ctrl_Widget->setupComponent(":/img/plugins/securitycenter/kysec_48.png", \
++                                     ":/img/plugins/securitycenter/kysec_48_white.png",\
+                                      tr("App protection"), \
+                                      tr("App install"), \
+                                      "/usr/sbin/ksc-defender --exec-ctrl");
+@@ -218,12 +226,14 @@ void SecurityCenter::initComponent(){
+ 
+     BlockWidget * net_protect_Widget = new BlockWidget();
+     net_protect_Widget->setupComponent(":/img/plugins/securitycenter/net_48.png", \
++                                       ":/img/plugins/securitycenter/net_48_white.png",\
+                                        tr("Network protection"), \
+                                        tr("Manage and control network"), \
+                                        "/usr/sbin/ksc-defender --net-protect");
+ 
+     BlockWidget * security_setting_Widget = new BlockWidget();
+     security_setting_Widget->setupComponent(":/img/plugins/securitycenter/set2px.png", \
++                                            ":/img/plugins/securitycenter/set2@2x_1.png",\
+                                             tr("Secure mode configuration"), \
+                                             tr("Simple configuraion"), \
+                                             "/usr/sbin/ksc-defender --security-setting");
+diff --git a/plugins/security-updates/securitycenter/securitycenter.h b/plugins/security-updates/securitycenter/securitycenter.h
+index 0a7529e6..760e5883 100644
+--- a/plugins/security-updates/securitycenter/securitycenter.h
++++ b/plugins/security-updates/securitycenter/securitycenter.h
+@@ -25,7 +25,7 @@ public:
+     ~BlockWidget();
+ public:
+     void initComponent();
+-    void setupComponent(QString logo, QString title, QString detail, QString cmd);
++    void setupComponent(QString normal_icon ,QString hover_icon, QString title, QString detail, QString cmd);
+ 
+ public:
+     QString _cmd;
+@@ -38,6 +38,8 @@ public:
+     int m_curIndex;
+     int m_labelWidth;
+     QString m_showText;
++    QString m_normalIcon;
++    QString m_hoverIcon;
+     QTimer *timer;
+     void scrollLabel();
+     void updateIndex();
+diff --git a/plugins/security-updates/securitycenter/securitycenter.ui b/plugins/security-updates/securitycenter/securitycenter.ui
+index 475ae83a..4fa20f58 100644
+--- a/plugins/security-updates/securitycenter/securitycenter.ui
++++ b/plugins/security-updates/securitycenter/securitycenter.ui
+@@ -13,7 +13,7 @@
+   <property name="windowTitle">
+    <string>SecurityCenter</string>
+   </property>
+-  <layout class="QVBoxLayout" name="verticalLayout_2">
++  <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+@@ -60,41 +60,64 @@
+        <number>0</number>
+       </property>
+       <item>
+-       <layout class="QVBoxLayout" name="verticalLayout">
+-        <property name="spacing">
+-         <number>16</number>
+-        </property>
+-        <property name="bottomMargin">
+-         <number>10</number>
+-        </property>
++       <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+-         <widget class="QLabel" name="titleLabel">
+-          <property name="sizePolicy">
+-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+-            <horstretch>0</horstretch>
+-            <verstretch>0</verstretch>
+-           </sizepolicy>
++         <layout class="QVBoxLayout" name="verticalLayout">
++          <property name="spacing">
++           <number>0</number>
+           </property>
+-          <property name="text">
+-           <string>Summarize</string>
++          <property name="bottomMargin">
++           <number>10</number>
+           </property>
+-         </widget>
+-        </item>
+-        <item>
+-         <widget class="QLabel" name="label">
+-          <property name="sizePolicy">
+-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+-            <horstretch>0</horstretch>
+-            <verstretch>0</verstretch>
+-           </sizepolicy>
+-          </property>
+-          <property name="text">
+-           <string>Recognize the current security of the system, and can take the necessary settings</string>
+-          </property>
+-         </widget>
++          <item>
++           <widget class="QLabel" name="titleLabel">
++            <property name="sizePolicy">
++             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
++              <horstretch>0</horstretch>
++              <verstretch>0</verstretch>
++             </sizepolicy>
++            </property>
++            <property name="text">
++             <string>电脑安全概况</string>
++            </property>
++           </widget>
++          </item>
++          <item>
++           <spacer name="verticalSpacer_3">
++            <property name="orientation">
++             <enum>Qt::Vertical</enum>
++            </property>
++            <property name="sizeType">
++             <enum>QSizePolicy::Fixed</enum>
++            </property>
++            <property name="sizeHint" stdset="0">
++             <size>
++              <width>20</width>
++              <height>8</height>
++             </size>
++            </property>
++           </spacer>
++          </item>
++          <item>
++           <widget class="QLabel" name="label">
++            <property name="sizePolicy">
++             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
++              <horstretch>0</horstretch>
++              <verstretch>0</verstretch>
++             </sizepolicy>
++            </property>
++            <property name="text">
++             <string>了解电脑当前的安全情况，并采取有效的防控措施</string>
++            </property>
++           </widget>
++          </item>
++         </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
++          <property name="topMargin">
++           <number>8</number>
++          </property>
+           <item>
+            <widget class="QPushButton" name="pushButton">
+             <property name="minimumSize">
+-- 
+2.25.1
+

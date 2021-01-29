@@ -165,6 +165,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../../plugins/system/autoboot/addautoboot.cpp" line="125"/>
+        <source>Desktop files(*.desktop)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../../plugins/system/autoboot/addautoboot.cpp" line="132"/>
         <source>select autoboot desktop</source>
         <translation type="unfinished"></translation>
@@ -2340,10 +2345,9 @@ change system settings</source>
     </message>
     <message>
         <location filename="../../../plugins/devices/keyboard/keyboardcontrol.ui" line="767"/>
-        <location filename="../../../plugins/devices/keyboard/keyboardcontrol.cpp" line="136"/>
+        <location filename="../../../plugins/devices/keyboard/keyboardcontrol.cpp" line="135"/>
         <source>Keyboard layout</source>
         <translation type="unfinished"></translation>
-        <extra-contents_path>/keyboard/Keyboard layout</extra-contents_path>
     </message>
     <message>
         <location filename="../../../plugins/devices/keyboard/keyboardcontrol.cpp" line="42"/>

@@ -73,6 +73,7 @@ INCLUDEPATH += qtsingleapplication
 DEPENDPATH += qtsingleapplication
 
 SOURCES += \
+    component/leftlabel.cpp \
     customstyle.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -97,6 +98,7 @@ SOURCES += \
     utils/xatom-helper.cpp
 
 HEADERS += \
+    component/leftlabel.h \
     customstyle.h \
     devicesmonitor.h \
     mainwindow.h \

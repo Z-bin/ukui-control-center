@@ -132,7 +132,6 @@ void KeyboardControl::setupStylesheet(){
     ui->repeatLabel->setText(tr("Input characters to test the repetition effect:"));
     //~ contents_path /keyboard/Tip of keyboard
     ui->tipLabel->setText(tr("Tip of keyboard"));
-    //~ contents_path /keyboard/Keyboard layout
     ui->layoutLabel->setText(tr("Keyboard layout"));
 
 }

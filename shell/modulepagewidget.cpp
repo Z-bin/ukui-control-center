@@ -89,13 +89,13 @@ void ModulePageWidget::initUI() {
 
     for (int moduleIndex = 0; moduleIndex < TOTALMODULES; moduleIndex++){
         QListWidget * leftListWidget = new QListWidget;
-        leftListWidget->setObjectName("leftWidget");
-        leftListWidget->setAttribute(Qt::WA_DeleteOnClose);
-        leftListWidget->setResizeMode(QListView::Adjust);
-        leftListWidget->setFocusPolicy(Qt::NoFocus);
-        leftListWidget->setSelectionMode(QAbstractItemView::NoSelection);
-        leftListWidget->setSpacing(12);
-        leftListWidget->setMinimumWidth(172);
+//        leftListWidget->setObjectName("leftWidget");
+//        leftListWidget->setAttribute(Qt::WA_DeleteOnClose);
+//        leftListWidget->setResizeMode(QListView::Adjust);
+//        leftListWidget->setFocusPolicy(Qt::NoFocus);
+//        leftListWidget->setSelectionMode(QAbstractItemView::NoSelection);
+//        leftListWidget->setSpacing(12);
+//        leftListWidget->setMinimumWidth(172);
         connect(leftListWidget, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(currentLeftitemChanged(QListWidgetItem*,QListWidgetItem*)));
         QListWidget * topListWidget = new QListWidget;
         topListWidget->setAttribute(Qt::WA_DeleteOnClose);
@@ -121,14 +121,14 @@ void ModulePageWidget::initUI() {
             }
 
             //填充左侧二级菜单
-            LeftWidgetItem * leftWidgetItem = new LeftWidgetItem(this);
-            leftWidgetItem->setAttribute(Qt::WA_DeleteOnClose);
-            leftWidgetItem->setLabelText(single.namei18nString);
-
-            leftWidgetItem->setLabelPixmap(QString("://img/secondaryleftmenu/%1.svg").arg(single.nameString), single.nameString, "default");
+            LeftWidgetItem * leftWidgetItem = new LeftWidgetItem();
+            leftWidgetItem->setStyleSheet("QWidget{background:#76EEC6;border-radius:12px}");
+//            leftWidgetItem->setAttribute(Qt::WA_DeleteOnClose);
+//            leftWidgetItem->setLabelText(single.namei18nString);
+//            leftWidgetItem->setLabelPixmap(QString("://img/secondaryleftmenu/%1.svg").arg(single.nameString), single.nameString, "default");
 
             QListWidgetItem * item = new QListWidgetItem(leftListWidget);
-            item->setSizeHint(QSize(ui->leftStackedWidget->width() + 48, 40)); //QSize(120, 40) spacing: 12px;
+//            item->setSizeHint(QSize(ui->leftStackedWidget->width() + 48, 40)); //QSize(120, 40) spacing: 12px;
             leftListWidget->setItemWidget(item, leftWidgetItem);
             leftListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 

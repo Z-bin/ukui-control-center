@@ -25,6 +25,8 @@
 #include <QHBoxLayout>
 #include <QSvgRenderer>
 #include <QPixmap>
+#include <QResizeEvent>
+#include "leftlabel.h"
 
 class LeftWidgetItem : public QWidget
 {
@@ -44,6 +46,9 @@ public:
 
     QString text();
 
+protected:
+    void resizeEvent(QResizeEvent *event);
+
 private:
     // load svg picture
     const QPixmap loadSvg(const QString &fileName, QString color);
@@ -56,6 +61,7 @@ private:
 
     QWidget * widget;
     QString icoName;
+    QString mStr;
 
 };
 

@@ -213,6 +213,11 @@
         <translation>确定</translation>
     </message>
     <message>
+        <location filename="../../../plugins/system/autoboot/addautoboot.cpp" line="125"/>
+        <source>Desktop files(*.desktop)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../../plugins/system/autoboot/addautoboot.cpp" line="132"/>
         <source>select autoboot desktop</source>
         <translation>选择自启动程序</translation>
@@ -2997,11 +3002,6 @@ folder will be deleted!</source>
         <extra-contents_path>/keyboard/Tip of keyboard</extra-contents_path>
     </message>
     <message>
-        <source>reset default layout</source>
-        <translation type="vanished">恢复默认布局</translation>
-        <extra-contents_path>/keyboard/reset default layout</extra-contents_path>
-    </message>
-    <message>
         <source>Reset layout</source>
         <translation type="vanished">重置布局</translation>
     </message>
@@ -3020,10 +3020,9 @@ folder will be deleted!</source>
     </message>
     <message>
         <location filename="../../../plugins/devices/keyboard/keyboardcontrol.ui" line="767"/>
-        <location filename="../../../plugins/devices/keyboard/keyboardcontrol.cpp" line="136"/>
+        <location filename="../../../plugins/devices/keyboard/keyboardcontrol.cpp" line="135"/>
         <source>Keyboard layout</source>
         <translation>键盘布局</translation>
-        <extra-contents_path>/keyboard/Keyboard layout</extra-contents_path>
     </message>
     <message>
         <source>Install layouts</source>
