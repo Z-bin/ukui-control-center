@@ -39,8 +39,8 @@ LeftWidgetItem::LeftWidgetItem(QWidget *parent) :
 
     iconLabel = new QLabel(widget);
 
-    textLabel = new QLabel();
-//    textLabel->setMaximumWidth(100);
+    textLabel = new QLabel(widget);
+    textLabel->setMaximumWidth(200);
 
     widget->setStyleSheet("QLabel{background:#AEEEE0}");
 
@@ -49,25 +49,26 @@ LeftWidgetItem::LeftWidgetItem(QWidget *parent) :
 ////    policy1.setHorizontalPolicy(QSizePolicy::Fixed);
 ////    policy1.setVerticalPolicy(QSizePolicy::Fixed);
 ////    textLabel->setSizePolicy(policy1);
-//    textLabel->setScaledContents(true);
+    textLabel->setScaledContents(true);
 
 
     QHBoxLayout * mainlayout = new QHBoxLayout(widget);
-    mainlayout->setSpacing(8);
-    mainlayout->setContentsMargins(0, 0, 0, 0);
+    mainlayout->setSpacing(0);
+    mainlayout->setContentsMargins(0, 0, 2, 0);
     mainlayout->addWidget(iconLabel);
     mainlayout->addWidget(textLabel);
+//    mainlayout->addWidget(new QLabel);
 //    mainlayout->addStretch();
 
     widget->setLayout(mainlayout);
 
 
-    QVBoxLayout * baseVerLayout = new QVBoxLayout();
+    QVBoxLayout * baseVerLayout = new QVBoxLayout(this);
 //    baseVerLayout->setSpacing(0);
     baseVerLayout->setMargin(0);
 
     baseVerLayout->addWidget(widget);
-    baseVerLayout->addSpacing(1);
+//    baseVerLayout->addSpacing(1);
 
     setLayout(baseVerLayout);
 
@@ -76,13 +77,14 @@ LeftWidgetItem::LeftWidgetItem(QWidget *parent) :
     connect(fontSetting, &QGSettings::changed,[=](QString key) {
         if ("systemFont" == key || "systemFontSize" ==key) {
 
-            qDebug() << "daixoa---->" << textLabel->width();
+            qDebug() << "daixoa---->" << textLabel->width() << mStr;
             QFontMetrics  fontMetrics(textLabel->font());
             int fontSize = fontMetrics.width(mStr);
-            qDebug() << Q_FUNC_INFO << fontSize << textLabel->width() << mStr;
+
             if (fontSize >= textLabel->width()) {
+                qDebug() << Q_FUNC_INFO << fontSize << textLabel->width() << mStr;
                 textLabel->setText(fontMetrics.elidedText(mStr, Qt::ElideRight, textLabel->width()));
-                textLabel->setToolTip(mStr);
+//                textLabel->setToolTip(mStr);
             } else {
                 textLabel->setText(mStr);
                 textLabel->setToolTip("");
@@ -114,6 +116,7 @@ void LeftWidgetItem::isSetLabelPixmapWhite(bool selected) {
 //    qDebug()<<"file name is-------->"<<fileName<<endl;
     QPixmap pix =  loadSvg(fileName, "blue");
     iconLabel->setPixmap(pix);
+
 }
 
 void LeftWidgetItem::setLabelText(QString text){

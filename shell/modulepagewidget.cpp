@@ -29,6 +29,8 @@
 #include "utils/functionselect.h"
 #include "utils/utils.h"
 #include "component/leftwidgetitem.h"
+#include "component/leftlist.h"
+#include "component/itemdelegate.h"
 
 ModulePageWidget::ModulePageWidget(QWidget *parent) :
     QWidget(parent),
@@ -41,12 +43,12 @@ ModulePageWidget::ModulePageWidget(QWidget *parent) :
     pmainWindow = (MainWindow *)parentWidget();
 
     // 左侧Widget大小限定
-    ui->leftbarWidget->setMinimumWidth(160);
-    ui->leftbarWidget->setMaximumWidth(216);
+//    ui->leftbarWidget->setMinimumWidth(216);
+//    ui->leftbarWidget->setMaximumWidth(216);
 
     // 右侧Widget大小限定(限制了最小宽度)
-    ui->widget->setMinimumWidth(650);
-    ui->widget->setMaximumWidth(1200);
+//    ui->widget->setMinimumWidth(650);
+//    ui->widget->setMaximumWidth(1200);
 
     // 左侧二级菜单样式
     ui->leftStackedWidget->setStyleSheet("border: none;");
@@ -88,13 +90,15 @@ void ModulePageWidget::initUI() {
     ui->widget->setSizePolicy(rightSizePolicy);
 
     for (int moduleIndex = 0; moduleIndex < TOTALMODULES; moduleIndex++){
-        QListWidget * leftListWidget = new QListWidget;
+        LeftList * leftListWidget = new LeftList;
+//        leftListWidget->setItemDelegate(new ItemDelegate());
 //        leftListWidget->setObjectName("leftWidget");
 //        leftListWidget->setAttribute(Qt::WA_DeleteOnClose);
 //        leftListWidget->setResizeMode(QListView::Adjust);
+//        leftListWidget->setMinimumWidth(500);
 //        leftListWidget->setFocusPolicy(Qt::NoFocus);
 //        leftListWidget->setSelectionMode(QAbstractItemView::NoSelection);
-        leftListWidget->setSpacing(12);
+//        leftListWidget->setSpacing(12);
 //        leftListWidget->setMinimumWidth(172);
         connect(leftListWidget, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(currentLeftitemChanged(QListWidgetItem*,QListWidgetItem*)));
         QListWidget * topListWidget = new QListWidget;
@@ -128,7 +132,7 @@ void ModulePageWidget::initUI() {
             leftWidgetItem->setLabelPixmap(QString("://img/secondaryleftmenu/%1.svg").arg(single.nameString), single.nameString, "default");
 
             QListWidgetItem * item = new QListWidgetItem(leftListWidget);
-            item->setSizeHint(QSize(ui->leftStackedWidget->width() + 48, 40)); //QSize(120, 40) spacing: 12px;
+            item->setSizeHint(QSize(0, 40)); //QSize(120, 40) spacing: 12px;
             leftListWidget->setItemWidget(item, leftWidgetItem);
 //            leftListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -146,8 +150,7 @@ void ModulePageWidget::initUI() {
 
             pluginInstanceMap.insert(single.namei18nString, pluginInstance);
 
-        }
-
+        }        
 //        QStringList functionStringList = FunctionSelect::funcsList[moduleIndex];
 //        for (int funcIndex = 0; funcIndex < functionStringList.size(); funcIndex++){
 //            QString funcnameString = functionStringList.at(funcIndex);

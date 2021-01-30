@@ -301,13 +301,13 @@
       <widget class="QPushButton" name="resetBtn">
        <property name="minimumSize">
         <size>
-         <width>120</width>
+         <width>0</width>
          <height>36</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>1200</width>
+         <width>16777215</width>
          <height>36</height>
         </size>
        </property>
@@ -356,14 +356,14 @@
       <widget class="QPushButton" name="advancedBtn">
        <property name="minimumSize">
         <size>
-         <width>120</width>
-         <height>36</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>120</width>
-         <height>36</height>
+         <width>16777215</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
