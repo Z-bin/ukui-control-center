@@ -1481,8 +1481,8 @@ void Widget::initUiComponent() {
     QDBusReply<QVariant> briginfo;
     briginfo  = brightnessInterface.call("Get", "org.freedesktop.UPower.Device", "PowerSupply");
     mIsBattery = briginfo.value().toBool();
-    if (!mIsBattery && !mIsWayland) {
-        ui->brightnessframe->setVisible(true);
+    if (!mIsBattery && !mIsWayland && !isBacklight()) {
+        ui->brightnessframe->setVisible(false);
     } else {
         ui->brightnessframe->setVisible(true);
     }
